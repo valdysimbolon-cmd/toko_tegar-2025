@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'pages/register_page.dart';
+import 'latihan_tambahan/pages/detail_page.dart' as tb;
+import 'latihan_tambahan/pages/checkout_page.dart' as tb;
 
 void main() => runApp(const TokoTegarApp());
 
@@ -15,6 +17,11 @@ class TokoTegarApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
       home: const RegisterPage(),
+      // Rute untuk fitur tambahan (detail produk dan checkout)
+      routes: {
+        '/detail': (_) => const tb.DetailPage(),
+        '/checkout': (_) => const tb.CheckoutPage(),
+      },
     );
   }
 }

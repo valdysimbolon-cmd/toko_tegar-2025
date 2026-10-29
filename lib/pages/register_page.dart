@@ -1,3 +1,4 @@
+import '../latihan_tambahan/state.dart' show app;
 import 'package:flutter/material.dart';
 import 'home_page.dart';
 
@@ -45,6 +46,8 @@ class _RegisterPageState extends State<RegisterPage> {
       );
       return;
     }
+        app.ubahProfil(_namaToko.text.trim(), _namaPemilik.text.trim(),
+        _kontak.text.trim());
     // Kirim Nama Toko ke halaman berikutnya lewat constructor
     Navigator.pushReplacement(
       context,

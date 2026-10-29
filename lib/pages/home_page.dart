@@ -3,6 +3,10 @@ import '../data/products.dart';
 import '../widgets/app_nav.dart';
 import '../widgets/category_item.dart';
 import '../widgets/promo_card.dart';
+import '../latihan_tambahan/pages/beranda_tab.dart';
+import '../latihan_tambahan/pages/cari_tab.dart';
+import '../latihan_tambahan/pages/keranjang_tab.dart';
+import '../latihan_tambahan/pages/profil_tab.dart';
 import 'category_page.dart';
 import 'detail_page.dart';
 
@@ -62,7 +66,6 @@ class _HomePageState extends State<HomePage> {
               style:
                   const TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
         ),
-        // KOMPONEN WAJIB: deret ikon kategori (Wrap -> baris ke-2 berisi Protein)
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8),
           child: LayoutBuilder(builder: (context, c) {
@@ -79,16 +82,27 @@ class _HomePageState extends State<HomePage> {
           }),
         ),
         const SizedBox(height: 12),
-        // KOMPONEN BONUS: banner + "Lihat Lebih Banyak" + kartu produk
         _banner(),
-        const Padding(
-          padding: EdgeInsets.symmetric(vertical: 12),
-          child: Center(
-            child: Text('Lihat Lebih Banyak  ⌄',
-                style: TextStyle(
-                    color: Colors.green,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 12)),
+        // "Lihat Lebih Banyak" -> grid produk dengan filter dan urutan (fitur tambahan)
+        InkWell(
+          onTap: () => Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (_) => Scaffold(
+                appBar: AppBar(title: const Text('Semua Produk')),
+                body: const BerandaTab(),
+              ),
+            ),
+          ),
+          child: const Padding(
+            padding: EdgeInsets.symmetric(vertical: 12),
+            child: Center(
+              child: Text('Lihat Lebih Banyak  ⌄',
+                  style: TextStyle(
+                      color: Colors.green,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 12)),
+            ),
           ),
         ),
         Padding(
@@ -120,7 +134,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Home'),
+        title: Text(_tabLabels[_tab]),
         actions: [IconButton(onPressed: () {}, icon: const Icon(Icons.search))],
       ),
       drawer: Drawer(
@@ -131,9 +145,16 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
       ),
-      body: _tab == 0
-          ? _home()
-          : Center(child: Text('Halaman ${_tabLabels[_tab]}')),
+      // Tab 1-3 memakai halaman dari latihan_tambahan
+      body: IndexedStack(
+        index: _tab,
+        children: [
+          _home(),
+          const CariTab(),
+          const KeranjangTab(),
+          const ProfilTab(),
+        ],
+      ),
       bottomNavigationBar:
           AppNav(index: _tab, onTap: (i) => setState(() => _tab = i)),
     );
